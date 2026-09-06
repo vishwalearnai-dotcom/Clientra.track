@@ -1,21 +1,24 @@
 export type Role = 'ADMIN' | 'LEAD' | 'MEMBER';
 export type ActiveTab = 'DASHBOARD' | 'STORYBOARD' | 'EMPLOYEE_MANAGEMENT';
 
-export type DomainName = 
-  | 'Sales' 
-  | 'Marketing' 
-  | 'Operations' 
-  | 'Installation' 
-  | 'R&D' 
-  | 'Founders Office' 
-  | 'Finance';
+// Dynamic Department Model (No hardcoded domain list)
+export interface Department {
+  id: string;
+  org_id: string;
+  name: string;
+  lead_user_id?: string;
+  created_at?: string;
+}
 
+// Backwards compatibility alias for components during refactoring
+export type DomainName = string;
 export interface DomainInfo {
-  name: DomainName;
-  headName: string; // Vinitha, Guru, Dr Karthik, Lokeshwar, Tharun
+  name: string;
+  headName: string;
   headRole: string;
 }
 
+// User / Organization Member Model
 export interface User {
   id: string;
   name: string;
@@ -23,8 +26,11 @@ export interface User {
   avatar: string;
   role: Role;
   title: string;
-  domain: DomainName;
-  headName: string; // Name of Head (e.g. Vinitha, Dr Karthik, Lokeshwar, Tharun, Guru)
+  domain: string; // Department name
+  department_id?: string;
+  headName: string; // Direct Manager / Reporting Lead name
+  reports_to_member_id?: string;
+  phone_number?: string;
 }
 
 export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
@@ -33,11 +39,12 @@ export type Priority = 'High' | 'Medium' | 'Low';
 export interface Task {
   id: string;
   title: string;
-  domain: DomainName;
+  domain: string; // Department name
+  department_id?: string;
   status: TaskStatus;
   priority: Priority;
   assigneeId: string;
-  delegatedByHeadName: string; // Vinitha, Guru, Dr Karthik, Lokeshwar, Tharun, Tejas Signal
+  delegatedByHeadName: string;
   dueDate: string;
   month: string; // e.g. "2026-09"
   lastUpdated: string;
