@@ -33,7 +33,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     setSelectedMonth,
     users, 
     notifications,
-    resetDataToDefault
+    resetWorkspace,
+    currentOrg
   } = useApp();
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -254,10 +255,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           )}
 
-          {/* Reset */}
+          {/* Reset Workspace / Logout */}
           <button
-            onClick={resetDataToDefault}
-            title="Reset to default state"
+            onClick={resetWorkspace}
+            title="Switch or reset company workspace"
             className="p-2 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-700 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />

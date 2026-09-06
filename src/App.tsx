@@ -9,16 +9,22 @@ import { EmployeeManagementView } from './components/EmployeeManagementView';
 import { TaskModal } from './components/TaskModal';
 import { NotificationCenter } from './components/NotificationCenter';
 import { Toast } from './components/Toast';
+import { OnboardingWizard } from './components/OnboardingWizard';
 import { Task, ActiveTab } from './types';
 
 const MainContent: React.FC = () => {
-  const { currentRole } = useApp();
+  const { currentRole, isOnboarded, completeOnboarding } = useApp();
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('DASHBOARD');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
   const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState(false);
+
+  // If no company has been onboarded yet, show fresh Multi-Tenant Onboarding Wizard
+  if (!isOnboarded) {
+    return <OnboardingWizard onComplete={completeOnboarding} />;
+  }
 
   const handleOpenNewTaskModal = () => {
     setTaskToEdit(null);
@@ -81,7 +87,7 @@ const MainContent: React.FC = () => {
 
         {/* Footer */}
         <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
-          <p>TaskTrack Executive &copy; 2026 — 7-Domain Task Delegation & Management System</p>
+          <p>Clientra Track &copy; 2026 — Dynamic Multi-Tenant Task Delegation & Management Platform</p>
         </footer>
 
       </div>
